@@ -6,9 +6,13 @@ import java.util.List;
 /**
  *
  */
-public abstract class ClassDSL implements TypeDSL{
+public abstract class ClassDSL implements DSLEntity {
 
     protected List<MemberDSL> members = new ArrayList<>();
+
+    protected ClassDSL() {
+        classDescription();
+    }
 
     public abstract void classDescription();
 
@@ -17,11 +21,11 @@ public abstract class ClassDSL implements TypeDSL{
     }
 
 
-    public <T extends TypeDSL> void member(String name, Class<T> type) {
+    public <T extends DSLEntity> void member(String name, Class<T> type) {
         addMember(name, type);
     }
 
-    public <T extends TypeDSL> void memberList(String name, Class<T> type) {
+    public <T extends DSLEntity> void memberList(String name, Class<T> type) {
         addMemberList(name, type);
     }
 

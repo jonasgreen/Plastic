@@ -15,11 +15,10 @@ import java.util.List;
  */
 public class Generator {
 
-    protected String inputDir;
-    protected String outputDir;
+    protected Path inputDir;
+    protected Path outputDir;
 
-
-    public Generator(String inputDir, String outputDir) {
+    public Generator(Path inputDir, Path outputDir) {
         this.inputDir = inputDir;
         this.outputDir = outputDir;
     }
@@ -35,14 +34,14 @@ public class Generator {
     }
 
     private List<DSLEntity> getDSLEntities() throws IOException {
-        Path path = Paths.get(inputDir);
-
         DslFileVisitor visitor = new DslFileVisitor();
-        Files.walkFileTree(path, visitor);
+        Files.walkFileTree(inputDir, visitor);
         return visitor.getEntities();
     }
 
     public static void main(String[] args){
-        Generator g = new Generator("/Users/jonasgreen/GitHub/Plastic/src/com/jonasgreen/plastic/example/dsl", "");
+        Path inputPath = Paths.get("/Users/jonasgreen/GitHub/Plastic/src/com/jonasgreen/plastic/example/dsl");
+        Generator g = new Generator(inputPath, null);
+        g.generate();
     }
 }

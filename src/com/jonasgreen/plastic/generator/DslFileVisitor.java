@@ -2,7 +2,9 @@ package com.jonasgreen.plastic.generator;
 
 import com.jonasgreen.plastic.dsl.DSLEntity;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
@@ -18,11 +20,21 @@ public class DslFileVisitor extends SimpleFileVisitor<Path> {
 
     private List<DSLEntity> entities = new ArrayList<>();
 
+    private Path inputPath;
+
+
+    public DslFileVisitor() {
+    }
+
     @Override
     public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-        String fileName = path.toFile().getName();
+        if (!path.toString().endsWith(".java")) {
+            return FileVisitResult.CONTINUE;
+        }
+        String packageName = getPackage(path.toFile());
+
         try {
-            Class<?> dslClass = Class.forName(fileName);
+            Class<?> dslClass = Class.forName((packageName.trim() +"." +path.toFile().getName().replace(".java", "")));
             try {
                 entities.add((DSLEntity) dslClass.newInstance());
             }
@@ -35,6 +47,24 @@ public class DslFileVisitor extends SimpleFileVisitor<Path> {
         }
 
         return FileVisitResult.CONTINUE;
+    }
+
+    private String getPackage(File javaFile) {
+        try (BufferedReader br = new BufferedReader(new FileReader(javaFile))) {
+            String line = br.readLine();
+
+            while (line != null) {
+                if (line.startsWith("package")) {
+                    String trimmed = line.substring(7);
+                    return trimmed.substring(0, trimmed.indexOf(";"));
+                }
+                line = br.readLine();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

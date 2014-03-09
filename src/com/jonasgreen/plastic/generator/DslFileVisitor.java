@@ -18,12 +18,14 @@ import java.util.List;
  */
 public class DslFileVisitor extends SimpleFileVisitor<Path> {
 
+    private static String fileSep = java.nio.file.FileSystems.getDefault().getSeparator();
     private List<DSLEntity> entities = new ArrayList<>();
 
-    private Path inputPath;
+    private InputPaths inputPaths;
 
 
-    public DslFileVisitor() {
+    public DslFileVisitor(InputPaths inputPaths) {
+        this.inputPaths = inputPaths;
     }
 
     @Override
@@ -31,10 +33,10 @@ public class DslFileVisitor extends SimpleFileVisitor<Path> {
         if (!path.toString().endsWith(".java")) {
             return FileVisitResult.CONTINUE;
         }
-        String packageName = getPackage(path.toFile());
+        String clazz = inputPaths.getDslSrcDir().relativize(path).toString().replace(".java", "").replace(fileSep, ".");
 
         try {
-            Class<?> dslClass = Class.forName((packageName.trim() +"." +path.toFile().getName().replace(".java", "")));
+            Class<?> dslClass = Class.forName(clazz);
             try {
                 entities.add((DSLEntity) dslClass.newInstance());
             }
@@ -47,24 +49,6 @@ public class DslFileVisitor extends SimpleFileVisitor<Path> {
         }
 
         return FileVisitResult.CONTINUE;
-    }
-
-    private String getPackage(File javaFile) {
-        try (BufferedReader br = new BufferedReader(new FileReader(javaFile))) {
-            String line = br.readLine();
-
-            while (line != null) {
-                if (line.startsWith("package")) {
-                    String trimmed = line.substring(7);
-                    return trimmed.substring(0, trimmed.indexOf(";"));
-                }
-                line = br.readLine();
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 

@@ -2,12 +2,11 @@ package com.jonasgreen.plastic.generator;
 
 import com.jonasgreen.plastic.dsl.DSLEntity;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,17 +14,19 @@ import java.util.List;
  */
 public class Generator {
 
-    protected Path inputDir;
-    protected Path outputDir;
+    protected InputPaths inputPaths;
 
-    public Generator(Path inputDir, Path outputDir) {
-        this.inputDir = inputDir;
-        this.outputDir = outputDir;
+    protected List<DSLPlugin> plugins = new ArrayList<>();
+
+    public Generator(InputPaths inputPaths) {
+        this.inputPaths = inputPaths;
     }
 
     public void generate(){
         try {
             List<DSLEntity> entities = getDSLEntities();
+            build(entities);
+
             System.out.println(entities.size());
         }
         catch (IOException e) {
@@ -33,15 +34,21 @@ public class Generator {
         }
     }
 
+    private void build(List<DSLEntity> entities) {
+        for (DSLPlugin plugin : plugins) {
+            plugin.handleDSLEntities(entities);
+        }
+    }
+
+    public void addPlugin(DSLPlugin p){
+        plugins.add(p);
+    }
+
     private List<DSLEntity> getDSLEntities() throws IOException {
-        DslFileVisitor visitor = new DslFileVisitor();
-        Files.walkFileTree(inputDir, visitor);
+        DslFileVisitor visitor = new DslFileVisitor(inputPaths);
+        Files.walkFileTree(inputPaths.getDslRootDir(), visitor);
         return visitor.getEntities();
     }
 
-    public static void main(String[] args){
-        Path inputPath = Paths.get("/Users/jonasgreen/GitHub/Plastic/src/com/jonasgreen/plastic/example/dsl");
-        Generator g = new Generator(inputPath, null);
-        g.generate();
-    }
+
 }

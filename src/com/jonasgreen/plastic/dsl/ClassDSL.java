@@ -40,4 +40,8 @@ public abstract class ClassDSL implements DSLEntity {
     protected void addMemberList(String name, Class type){
         members.add(new MemberListDSL(name, type));
     }
+
+    public List<MemberDSL> getMembers() {
+        return members;
+    }
 }

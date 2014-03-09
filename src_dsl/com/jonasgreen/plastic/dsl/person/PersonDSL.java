@@ -22,7 +22,4 @@ public class PersonDSL extends ClassDSL {
     }
 
 
-    public boolean isOverSixty(Person person){
-        return person.getAge() > 60;
-    }
 }

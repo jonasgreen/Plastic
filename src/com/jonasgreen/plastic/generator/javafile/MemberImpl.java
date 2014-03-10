@@ -3,8 +3,6 @@ package com.jonasgreen.plastic.generator.javafile;
 /**
  *
  */
-public interface Method extends Member{
-
-
+public abstract class MemberImpl implements Member{
 
 }

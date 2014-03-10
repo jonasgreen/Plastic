@@ -3,7 +3,7 @@ package com.jonasgreen.plastic.generator.javafile;
 /**
  *
  */
-public class MethodImpl extends MemberImpl implements Method{
+public class FieldImpl extends MemberImpl implements Field{
 
 
     @Override

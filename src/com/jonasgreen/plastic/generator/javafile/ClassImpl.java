@@ -6,10 +6,11 @@ import java.util.List;
 /**
  *
  */
-public class ClazzImpl implements Clazz{
+public class ClassImpl extends JavaFileImpl implements Class {
 
     protected List<Method> methods = new ArrayList<>();
-
+    protected List<Constructor> constructors = new ArrayList<>();
+    protected List<Field> fields = new ArrayList<>();
 
 
 

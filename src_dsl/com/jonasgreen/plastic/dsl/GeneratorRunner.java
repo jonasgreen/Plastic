@@ -1,4 +1,4 @@
-package com.jonasgreen.plastic.generator;
+package com.jonasgreen.plastic.dsl;
 
 import com.jonasgreen.plastic.generator.Generator;
 import com.jonasgreen.plastic.generator.InputPaths;

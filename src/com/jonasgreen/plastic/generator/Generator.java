@@ -1,5 +1,7 @@
 package com.jonasgreen.plastic.generator;
 
+import com.jonasgreen.plastic.dsl.DSLEntity;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -20,10 +22,10 @@ public class Generator {
 
     public void generate(){
         try {
-            DSLDirectory tree = generateDSLTree();
+            List<DSLEntity> dslEntities = generateDSLTree();
 
             for (DSLPlugin plugin : plugins) {
-                plugin.generate(tree);
+                plugin.generate(dslEntities);
             }
         }
         catch (IOException e) {
@@ -36,10 +38,10 @@ public class Generator {
         plugins.add(p);
     }
 
-    private DSLDirectory generateDSLTree() throws IOException {
+    private List<DSLEntity> generateDSLTree() throws IOException {
         DslFileVisitor visitor = new DslFileVisitor(inputPaths);
         Files.walkFileTree(inputPaths.getDslRootDir(), visitor);
-        return null;//visitor.getEntities();
+        return visitor.getEntities();
     }
 
 

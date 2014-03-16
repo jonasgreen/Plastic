@@ -19,7 +19,7 @@ public class PrintDSLPlugin extends DefaultDSLPlugin{
     }
 
     @Override
-    public void handleDSLEntities(List<DSLEntity> entities) {
+    public void generate(List<DSLEntity> entities) {
         for (DSLEntity entity : entities) {
             StringBuilder sb = new StringBuilder(entity.getClass().getSimpleName()).append("\n");
             if(entity instanceof ClassDSL){

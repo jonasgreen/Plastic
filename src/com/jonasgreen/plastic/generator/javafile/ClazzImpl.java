@@ -6,11 +6,7 @@ import java.util.List;
 /**
  *
  */
-<<<<<<< HEAD:src/com/jonasgreen/plastic/generator/javafile/ClazzImpl.java
-public class ClazzImpl extends JavaFileImpl implements Clazz {
-=======
-public class ClassImpl extends JavaFileImpl implements Class {
->>>>>>> parent of 29eb509... DSLStructure added:src/com/jonasgreen/plastic/generator/javafile/ClassImpl.java
+public class ClassImpl extends JavaFileImpl implements Class{
 
     protected List<Method> methods = new ArrayList<>();
     protected List<Constructor> constructors = new ArrayList<>();

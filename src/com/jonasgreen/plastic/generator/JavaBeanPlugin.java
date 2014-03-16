@@ -15,6 +15,13 @@ public class JavaBeanPlugin extends DefaultDSLPlugin {
         super(outputPaths);
     }
 
+
+    @Override
+    public void generate(DSLDirectory dir) {
+
+    }
+
+
     @Override
     public void generate(List<DSLEntity> entities) {
         for (DSLEntity entity : entities) {
@@ -49,5 +56,6 @@ public class JavaBeanPlugin extends DefaultDSLPlugin {
     protected void writeToDisk(JavaFile file) {
         file.render();
     }
+
 
 }

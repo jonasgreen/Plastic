@@ -10,11 +10,12 @@ public class PersonDSL extends ClassDSL {
 
     @Override
     public void classDescription() {
-        member("parent", PersonDSL.class);
 
-        member("firstName", Type.STRING);
-        member("lastName", Type.STRING);
-        member("age", Type.LONG);
+        member("firstName", STRING);
+        member("lastName", STRING);
+        member("age", LONG);
+
+        member("parent", PersonDSL.class);
 
         memberList("addresses", AddressDSL.class);
         memberList("children", PersonDSL.class);

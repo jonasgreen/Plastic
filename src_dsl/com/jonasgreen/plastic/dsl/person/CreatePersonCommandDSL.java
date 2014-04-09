@@ -1,4 +1,4 @@
-package com.jonasgreen.plastic.example.dsl;
+package com.jonasgreen.plastic.dsl.person;
 
 import com.jonasgreen.plastic.dsl.CommandDSL;
 
